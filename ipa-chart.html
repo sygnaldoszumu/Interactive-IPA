@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Interactive IPA Chart — real recordings</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Gentium+Plus:ital,wght@0,400;0,700;1,400&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Gentium+Plus:ital,wght@0,400;0,700;1,400&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
   --paper:#F3F4F0;
@@ -18,6 +18,10 @@
   --vd-soft:#E1E8F6;
   --line:#D9DBD2;
   --line-strong:#C2C5BB;
+  --grid-minor:#D9DBD2;   /* light ruling          */
+  --grid-major:#C2C5BB;   /* every 5th line, darker */
+  --grid-sq:18px;         /* size of one square     */
+  --hand-font:"Architects Daughter", cursive;
   --dim-op:.22;
   --radius:10px;
   --sym-font:"Gentium Plus", "Doulos SIL", "Charis SIL", Georgia, serif;
@@ -26,14 +30,17 @@
 *{box-sizing:border-box}
 html,body{margin:0;padding:0}
 body{
-  background:var(--paper);
+  background-color:var(--paper);
   color:var(--ink);
-  font-family:var(--ui-font);
-  font-size:15px;
+  font-family:var(--hand-font);
+  font-size:17px;
   line-height:1.45;
-  background-image:linear-gradient(var(--line) 1px, transparent 1px),
-                   linear-gradient(90deg, var(--line) 1px, transparent 1px);
-  background-size:36px 36px;
+  /* graph paper: minor + major ruling, horizontal + vertical */
+  background-image:
+    repeating-linear-gradient(var(--grid-major) 0 1px, transparent 1px calc(var(--grid-sq) * 5)),
+    repeating-linear-gradient(90deg, var(--grid-major) 0 1px, transparent 1px calc(var(--grid-sq) * 5)),
+    repeating-linear-gradient(var(--grid-minor) 0 1px, transparent 1px var(--grid-sq)),
+    repeating-linear-gradient(90deg, var(--grid-minor) 0 1px, transparent 1px var(--grid-sq));
   background-attachment:fixed;
 }
 .wrap{max-width:1200px;margin:0 auto;padding:22px 18px 60px}
@@ -83,6 +90,8 @@ section.block{
   border-radius:var(--radius);
   padding:16px 16px 18px;
   margin-bottom:18px;
+  font-family:var(--ui-font);
+  font-size:15px;
 }
 .block-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:12px}
 .block-head h2{
@@ -172,6 +181,8 @@ button.snd .glyph{color:inherit}
   border:1px solid var(--line-strong);
   border-radius:var(--radius);
   padding:18px;
+  font-family:var(--ui-font);
+  font-size:15px;
 }
 #panel .ph{
   font-size:11px;letter-spacing:.14em;text-transform:uppercase;

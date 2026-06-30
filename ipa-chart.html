@@ -21,6 +21,8 @@
   --grid-minor:#D9DBD2;   /* light ruling          */
   --grid-major:#C2C5BB;   /* every 5th line, darker */
   --grid-sq:18px;         /* size of one square     */
+  --grid-shift:6px;       /* drops the rules onto the 20px body baseline (computed 5.83px) */
+  --line-h:calc(var(--grid-sq) * 2);  /* one text line = 2 squares */
   --hand-font:"Architects Daughter", cursive;
   --dim-op:.22;
   --radius:10px;
@@ -33,51 +35,59 @@ body{
   background-color:var(--paper);
   color:var(--ink);
   font-family:var(--hand-font);
-  font-size:17px;
-  line-height:1.45;
+  font-size:20px;
+  line-height:var(--line-h);          /* 2 squares per line */
   /* graph paper: minor + major ruling, horizontal + vertical */
   background-image:
     repeating-linear-gradient(var(--grid-major) 0 1px, transparent 1px calc(var(--grid-sq) * 5)),
     repeating-linear-gradient(90deg, var(--grid-major) 0 1px, transparent 1px calc(var(--grid-sq) * 5)),
     repeating-linear-gradient(var(--grid-minor) 0 1px, transparent 1px var(--grid-sq)),
     repeating-linear-gradient(90deg, var(--grid-minor) 0 1px, transparent 1px var(--grid-sq));
-  background-attachment:fixed;
+  /* shift the rules down so baselines land on them; scroll with content so they stay aligned */
+  background-position:0 var(--grid-shift);
+  background-attachment:scroll;
 }
-.wrap{max-width:1200px;margin:0 auto;padding:22px 18px 60px}
+/* top padding is a whole number of squares so the first line starts on the grid */
+.wrap{max-width:1200px;margin:0 auto;padding:calc(var(--grid-sq) * 2) 18px 60px}
 
 /* ---------- header ---------- */
-header{margin-bottom:18px}
+/* every block below is sized in whole squares so the handwriting tracks the rules */
+header{margin-bottom:var(--grid-sq)}
 .eyebrow{
   font-size:11px;letter-spacing:.14em;text-transform:uppercase;
-  color:var(--ink-soft);font-weight:600;margin-bottom:6px;
+  color:var(--ink-soft);font-weight:600;
+  line-height:var(--grid-sq);margin:0 0 var(--grid-sq);
+  position:relative;top:-6px;  /* smaller text: drop its baseline onto a rule */
 }
 .eyebrow b.red{color:var(--vl)} .eyebrow b.blue{color:var(--vd)}
 h1{
   font-family:var(--sym-font);
   font-size:clamp(30px,4.6vw,44px);
-  font-weight:700;margin:0 0 4px;letter-spacing:-.01em;
+  font-weight:700;line-height:calc(var(--grid-sq) * 3);
+  margin:0 0 var(--grid-sq);letter-spacing:-.01em;
 }
 h1 .slash{color:var(--vl)} h1 .slash2{color:var(--vd)}
-.subtitle{color:var(--ink-soft);max-width:62ch;margin:0}
-.brand{display:flex;align-items:center;gap:14px;margin:0 0 4px}
-.logo{height:clamp(38px,5vw,54px);width:auto;flex:none}
+.subtitle{color:var(--ink-soft);max-width:62ch;line-height:var(--line-h);margin:0}
+.brand{display:flex;align-items:center;gap:14px;margin:0 0 var(--grid-sq);min-height:calc(var(--grid-sq) * 3)}
+.logo{height:calc(var(--grid-sq) * 2.5);width:auto;flex:none}
 .logo path{fill:var(--ink)}
 .brand h1{margin:0}
 
 /* ---------- language chips ---------- */
 .langbar{
-  display:flex;flex-wrap:wrap;gap:7px;margin:16px 0 4px;
+  display:flex;flex-wrap:wrap;gap:7px;margin:var(--grid-sq) 0;
 }
 .chip{
   font-family:var(--ui-font);font-size:13px;font-weight:600;
-  padding:6px 13px;border-radius:999px;cursor:pointer;
+  height:var(--line-h);display:inline-flex;align-items:center;
+  padding:0 13px;border-radius:999px;cursor:pointer;
   border:1.5px solid var(--line-strong);background:var(--card);color:var(--ink-soft);
   transition:all .15s ease;
 }
 .chip:hover{border-color:var(--ink);color:var(--ink)}
 .chip.active{background:var(--ink);border-color:var(--ink);color:#fff}
 .chip:focus-visible{outline:2px solid var(--vd);outline-offset:2px}
-.langnote{font-size:12.5px;color:var(--ink-soft);margin:6px 0 0;min-height:18px}
+.langnote{font-size:12.5px;color:var(--ink-soft);line-height:var(--grid-sq);margin:0;min-height:var(--grid-sq);position:relative;top:-7px}
 
 /* ---------- layout ---------- */
 .layout{display:grid;grid-template-columns:1fr;gap:18px;margin-top:18px}
@@ -222,7 +232,7 @@ button.snd .glyph{color:inherit}
 }
 .replay:hover{background:#000}
 .replay:disabled{opacity:.4;cursor:default}
-footer{margin-top:26px;font-size:12px;color:var(--ink-soft);max-width:80ch}
+footer{margin-top:var(--grid-sq);font-size:12px;line-height:var(--line-h);color:var(--ink-soft);max-width:80ch}
 footer a{color:var(--vd)}
 @media(max-width:1019px){
   #panel{position:sticky;top:8px;z-index:5;box-shadow:0 4px 18px rgba(33,37,46,.10)}
@@ -843,6 +853,39 @@ function renderPanel(sym){
   } else notused.hidden=true;
   document.getElementById('p-replay').onclick=()=>play(sym, currentBtn);
 }
+
+/* ---- keep the footer handwriting sitting on the paper rules ----
+   The white cards above have arbitrary heights, so the flow reaches the
+   footer out of phase with the 18px grid. We can't know that phase in CSS,
+   so measure it and add just enough top margin to drop the first baseline
+   onto a rule. Re-run on any layout change (fonts, resize, language switch). */
+(function(){
+  const SQ=18, SHIFT=6;            /* must match --grid-sq / --grid-shift   */
+  const ASC=1010, DESC=413, UPM=1024;  /* Architects Daughter font metrics  */
+  const el=document.querySelector('footer');
+  if(!el) return;
+  const baselineFromTop=(fs,lh)=>(lh-(ASC+DESC)/UPM*fs)/2 + ASC/UPM*fs;
+  function snap(){
+    el.style.marginTop='';                       /* reset to the CSS base   */
+    const cs=getComputedStyle(el);
+    const base=parseFloat(cs.marginTop)||0;
+    const fs=parseFloat(cs.fontSize);
+    const lh=parseFloat(cs.lineHeight)||fs*1.45;
+    const docTop=el.getBoundingClientRect().top+window.scrollY;
+    const bo=baselineFromTop(fs,lh);
+    /* want (docTop + extra + bo) ≡ SHIFT (mod SQ) */
+    let extra=(SHIFT-bo-docTop)%SQ;
+    extra=((extra%SQ)+SQ)%SQ;
+    el.style.marginTop=(base+extra)+'px';
+  }
+  let raf;
+  const schedule=()=>{cancelAnimationFrame(raf);raf=requestAnimationFrame(snap);};
+  window.addEventListener('load',schedule);
+  window.addEventListener('resize',schedule);
+  if(document.fonts&&document.fonts.ready) document.fonts.ready.then(schedule);
+  new ResizeObserver(schedule).observe(document.body);
+  schedule();
+})();
 </script>
 </body>
 </html>

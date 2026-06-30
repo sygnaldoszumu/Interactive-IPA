@@ -59,6 +59,10 @@ h1{
 }
 h1 .slash{color:var(--vl)} h1 .slash2{color:var(--vd)}
 .subtitle{color:var(--ink-soft);max-width:62ch;margin:0}
+.brand{display:flex;align-items:center;gap:14px;margin:0 0 4px}
+.logo{height:clamp(38px,5vw,54px);width:auto;flex:none}
+.logo path{fill:var(--ink)}
+.brand h1{margin:0}
 
 /* ---------- language chips ---------- */
 .langbar{
@@ -231,7 +235,15 @@ footer a{color:var(--vd)}
 
 <header>
   <div class="eyebrow">Interactive chart · genuine recordings from Wikimedia Commons · <b class="red">voiceless</b> / <b class="blue">voiced</b></div>
-  <h1><span class="slash">/</span>International Phonetic Alphabet<span class="slash2">/</span></h1>
+  <div class="brand">
+    <svg class="logo" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" viewBox="0 0 164.209 165.48" aria-hidden="true" focusable="false">
+      <path d="M161.62 110.331a7.02 7.02 0 0 0-7.02 7.02 7.02 7.02 0 0 0 7.02 7.02 7.02 7.02 0 0 0 7.02-7.02 7.02 7.02 0 0 0-7.02-7.02z" style="display:inline;opacity:.772031;stroke:#000;stroke-width:0" transform="translate(-575.27 -417)scale(3.77953)"/>
+      <path d="M168.254 128.852a18.55 18.55 0 0 0-11.531 4.02l-.001.001a19 19 0 0 0-.898.76 11.46 11.46 0 0 0-3.617 8.357 11.464 11.464 0 0 0 11.465 11.465h4.969v-24.599a19 19 0 0 0-.387-.004z" style="display:inline;opacity:.772031;stroke:#000;stroke-width:0;stroke-linejoin:round" transform="translate(-575.27 -417)scale(3.77953)"/>
+      <path d="M186.241 154.115a7.02 7.02 0 0 0 7.02-7.02 7.02 7.02 0 0 0-7.02-7.02 7.02 7.02 0 0 0-7.02 7.02 7.02 7.02 0 0 0 7.02 7.02z" style="display:inline;opacity:.772031;stroke:#000;stroke-width:0" transform="translate(-575.27 -417)scale(3.77953)"/>
+      <path d="M179.607 135.594a18.55 18.55 0 0 0 11.531-4.02l.001-.001a19 19 0 0 0 .898-.76 11.46 11.46 0 0 0 3.617-8.357 11.464 11.464 0 0 0-11.464-11.465h-4.97v24.599a19 19 0 0 0 .387.004z" style="display:inline;opacity:.772031;stroke:#000;stroke-width:0;stroke-linejoin:round" transform="translate(-575.27 -417)scale(3.77953)"/>
+    </svg>
+    <h1><span class="slash">/</span>International Phonetic Alphabet<span class="slash2">/</span></h1>
+  </div>
   <p class="subtitle">Click any symbol to hear a real human recording. Pick a language to see which sounds it uses — sounds outside that language stay clickable, just dimmed.</p>
   <div class="langbar" id="langbar" role="tablist" aria-label="Language filter"></div>
   <p class="langnote" id="langnote"></p>

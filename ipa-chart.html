@@ -61,10 +61,19 @@ header{margin-bottom:var(--grid-sq)}
 }
 .meta b.red{color:var(--vl)} .meta b.blue{color:var(--vd)}
 h1{
-  font-family:var(--sym-font);
-  font-size:clamp(30px,4.6vw,44px);
-  font-weight:700;line-height:calc(var(--grid-sq) * 3);
-  margin:0 0 var(--grid-sq);letter-spacing:-.01em;
+  font-family:var(--sym-font);font-weight:700;letter-spacing:-.01em;
+  margin:0 0 var(--grid-sq);
+  display:flex;flex-wrap:wrap;align-items:flex-end;gap:0 .45em;
+}
+h1 .w{display:flex;flex-direction:column}
+h1 .en{                                  /* readable English word */
+  font-size:clamp(24px,3.4vw,34px);
+  line-height:calc(var(--grid-sq) * 2);  /* 2 squares */
+}
+h1 .ipa{                                 /* its real transcription */
+  font-size:clamp(14px,1.9vw,19px);
+  line-height:var(--grid-sq);            /* 1 square */
+  font-weight:400;color:var(--ink-soft);
 }
 h1 .slash{color:var(--vl)} h1 .slash2{color:var(--vd)}
 .subtitle{color:var(--ink-soft);max-width:62ch;line-height:var(--line-h);margin:0}
@@ -259,13 +268,17 @@ footer a{color:var(--vd)}
       <path d="M186.241 154.115a7.02 7.02 0 0 0 7.02-7.02 7.02 7.02 0 0 0-7.02-7.02 7.02 7.02 0 0 0-7.02 7.02 7.02 7.02 0 0 0 7.02 7.02z" style="display:inline;opacity:.772031;stroke:#000;stroke-width:0" transform="translate(-575.27 -417)scale(3.77953)"/>
       <path d="M179.607 135.594a18.55 18.55 0 0 0 11.531-4.02l.001-.001a19 19 0 0 0 .898-.76 11.46 11.46 0 0 0 3.617-8.357 11.464 11.464 0 0 0-11.464-11.465h-4.97v24.599a19 19 0 0 0 .387.004z" style="display:inline;opacity:.772031;stroke:#000;stroke-width:0;stroke-linejoin:round" transform="translate(-575.27 -417)scale(3.77953)"/>
     </svg>
-    <h1><span class="slash">/</span>International Phonetic Alphabet<span class="slash2">/</span></h1>
+    <h1 aria-label="International Phonetic Alphabet">
+      <span class="w"><span class="en">International</span><span class="ipa"><span class="slash">/</span>ˌɪntərˈnæʃənəl</span></span>
+      <span class="w"><span class="en">Phonetic</span><span class="ipa">fəˈnɛtɪk</span></span>
+      <span class="w"><span class="en">Alphabet</span><span class="ipa">ˈælfəˌbɛt<span class="slash2">/</span></span></span>
+    </h1>
   </div>
   <p class="subtitle">Click any symbol to hear a real human recording. Pick a language to see which sounds it uses — sounds outside that language stay clickable, just dimmed.</p>
   <div class="langbar" id="langbar" role="tablist" aria-label="Language filter"></div>
-  <div class="langnote-box"><p class="langnote" id="langnote"></p></div>
   <div class="meta">Interactive chart · genuine recordings from Wikimedia Commons · <b class="red">voiceless</b> / <b class="blue">voiced</b></div>
 </header>
+  <div class="langnote-box"><p class="langnote" id="langnote"></p></div>
 
 <div class="layout">
 

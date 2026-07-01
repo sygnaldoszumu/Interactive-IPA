@@ -763,12 +763,12 @@ function playURL(url, myGen, timeout){
   });
 }
 
-function select(sym, btn){
+function select(sym, btn, autoplay=true){
   currentSym = sym; currentBtn = btn;
   document.querySelectorAll('button.snd.selected').forEach(b=>b.classList.remove('selected'));
   if(btn) btn.classList.add('selected');
   renderPanel(sym);
-  play(sym, btn);
+  if(autoplay) play(sym, btn);
 }
 
 async function play(sym, btn){
@@ -861,6 +861,12 @@ function renderPanel(sym){
   } else notused.hidden=true;
   document.getElementById('p-replay').onclick=()=>play(sym, currentBtn);
 }
+
+/* default the inspector to the first available sound (no autoplay) */
+(function(){
+  const first=document.querySelector('button.snd:not(.dim)');
+  if(first) select(first.dataset.sym, first, false);
+})();
 
 /* ---- keep the footer handwriting sitting on the paper rules ----
    The white cards above have arbitrary heights, so the flow reaches the

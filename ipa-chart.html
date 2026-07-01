@@ -53,13 +53,13 @@ body{
 /* ---------- header ---------- */
 /* every block below is sized in whole squares so the handwriting tracks the rules */
 header{margin-bottom:var(--grid-sq)}
-.eyebrow{
+.meta{
   font-size:11px;letter-spacing:.14em;text-transform:uppercase;
   color:var(--ink-soft);font-weight:600;
-  line-height:var(--grid-sq);margin:0 0 var(--grid-sq);
+  line-height:var(--grid-sq);margin:0;
   position:relative;top:-6px;  /* smaller text: drop its baseline onto a rule */
 }
-.eyebrow b.red{color:var(--vl)} .eyebrow b.blue{color:var(--vd)}
+.meta b.red{color:var(--vl)} .meta b.blue{color:var(--vd)}
 h1{
   font-family:var(--sym-font);
   font-size:clamp(30px,4.6vw,44px);
@@ -87,7 +87,15 @@ h1 .slash{color:var(--vl)} h1 .slash2{color:var(--vd)}
 .chip:hover{border-color:var(--ink);color:var(--ink)}
 .chip.active{background:var(--ink);border-color:var(--ink);color:#fff}
 .chip:focus-visible{outline:2px solid var(--vd);outline-offset:2px}
-.langnote{margin-top: 36px !important;font-size:22.5px;color:var(--ink-soft);line-height:var(--grid-sq);margin:0;min-height:var(--grid-sq);position:relative;top:-7px}
+.langnote-box{
+  background:var(--card);
+  border:1px solid var(--line-strong);
+  border-radius:var(--radius);
+  padding:12px 14px;
+  margin:0 0 var(--grid-sq);
+  font-family:var(--ui-font);
+}
+.langnote{font-size:13px;line-height:1.4;color:var(--ink-soft);margin:0;min-height:18px}
 
 /* ---------- layout ---------- */
 .layout{display:grid;grid-template-columns:1fr;gap:18px;margin-top:18px}
@@ -244,7 +252,6 @@ footer a{color:var(--vd)}
 <div class="wrap">
 
 <header>
-  <div class="eyebrow">Interactive chart · genuine recordings from Wikimedia Commons · <b class="red">voiceless</b> / <b class="blue">voiced</b></div>
   <div class="brand">
     <svg class="logo" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" viewBox="0 0 164.209 165.48" aria-hidden="true" focusable="false">
       <path d="M161.62 110.331a7.02 7.02 0 0 0-7.02 7.02 7.02 7.02 0 0 0 7.02 7.02 7.02 7.02 0 0 0 7.02-7.02 7.02 7.02 0 0 0-7.02-7.02z" style="display:inline;opacity:.772031;stroke:#000;stroke-width:0" transform="translate(-575.27 -417)scale(3.77953)"/>
@@ -256,7 +263,8 @@ footer a{color:var(--vd)}
   </div>
   <p class="subtitle">Click any symbol to hear a real human recording. Pick a language to see which sounds it uses — sounds outside that language stay clickable, just dimmed.</p>
   <div class="langbar" id="langbar" role="tablist" aria-label="Language filter"></div>
-  <p class="langnote" id="langnote"></p>
+  <div class="langnote-box"><p class="langnote" id="langnote"></p></div>
+  <div class="meta">Interactive chart · genuine recordings from Wikimedia Commons · <b class="red">voiceless</b> / <b class="blue">voiced</b></div>
 </header>
 
 <div class="layout">

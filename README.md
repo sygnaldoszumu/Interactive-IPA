@@ -5,6 +5,10 @@ genuine human recording — every consonant, vowel, and diphthong. Filter by lan
 to see which sounds it uses. The recordings come from Wikimedia Commons and are
 embedded directly in the page, so it works fully offline with no backend.
 
+## Contact
+
+Krystian Okaz — [mail@krystianokaz.com](mailto:mail@krystianokaz.com) · [krystianokaz.com](https://krystianokaz.com)
+
 ## License
 
 - **Code** — [GPL-3.0-or-later](./LICENSE).

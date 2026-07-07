@@ -309,7 +309,7 @@ footer a{color:var(--vd)}
           <span><i class="dot vd"></i>voiced (right)</span>
         </div>
       </div>
-      <div class="tablescroll"><table class="cons" id="constable"></table></div>
+      <div class="tablescroll"><table class="cons" id="consonant"></table></div>
       <p class="rowcaption">Hatched cells: articulations judged impossible. Rows = manner of articulation, columns = place (front of the mouth → throat).</p>
     </section>
 
@@ -613,7 +613,7 @@ function sndBtn(sym, extraClass){
 }
 
 (function buildTable(){
-  const tbl=document.getElementById('constable');
+  const tbl=document.getElementById('consonant');
   const thead=document.createElement('tr');
   const corner=document.createElement('th'); corner.className='corner'; thead.appendChild(corner);
   PLACES.forEach(p=>{

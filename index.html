@@ -136,7 +136,7 @@ section.block{
 .dot{width:9px;height:9px;border-radius:50%;display:inline-block}
 .dot.vl{background:var(--vl)} .dot.vd{background:var(--vd)}
 
-/* ---------- consonant table ---------- */
+/* ---------- consonant table (desktop: classic place × manner grid) ---------- */
 .tablescroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
 table.cons{border-collapse:collapse;width:100%;table-layout:fixed}
 table.cons th{
@@ -160,7 +160,7 @@ button.snd{
   font-size:clamp(15px,2vw,21px);line-height:1;
   background:transparent;border:1.5px solid transparent;border-radius:6px;
   padding:5px 4px;cursor:pointer;min-width:0;
-  transition:background .12s, opacity .25s, transform .12s;
+  transition:background .12s, border-color .12s, opacity .25s, transform .12s;
   color:var(--ink);
 }
 table.cons button.snd{padding:5px 2px;width:100%}
@@ -184,6 +184,41 @@ button.snd .glyph{color:inherit}
   button.snd.playing{animation:none}
 }
 
+/* ===== small screens: stack the consonant chart by manner, enlarge touch targets ===== */
+@media(max-width:700px){
+  /* consonant table becomes a per-manner stack (no place-column header) */
+  .tablescroll{overflow-x:visible}
+  table.cons,table.cons tbody{display:block}
+  table.cons tr:has(.corner){display:none}          /* hide place-of-articulation header row */
+  table.cons tr{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(96px,1fr));
+    gap:8px;margin:0 0 20px;
+  }
+  table.cons th.rowhead{                             /* manner name spans the full row */
+    grid-column:1 / -1;
+    text-align:left;white-space:normal;line-height:1.2;
+    font-size:13px;font-weight:600;letter-spacing:.02em;text-transform:uppercase;
+    color:var(--ink-soft);background:none;border:0;border-bottom:1px solid var(--line);
+    padding:0 0 6px;margin-bottom:2px;
+  }
+  table.cons td{border:0;padding:0;display:flex;justify-content:center;align-items:stretch}
+  table.cons td.impossible,
+  table.cons td:empty{display:none}                  /* drop blanks so the pairs sit together */
+  .pair{gap:8px;width:100%}
+
+  /* every button a comfortable, clearly-tappable chip */
+  button.snd{
+    display:inline-flex;align-items:center;justify-content:center;
+    min-width:44px;min-height:44px;                  /* touch target (WCAG 2.5.5) */
+    font-size:clamp(17px,5vw,21px);
+    background:#FAFBF8;border:1.5px solid var(--line);border-radius:8px;
+    box-shadow:0 1px 1.5px rgba(33,37,46,.05);       /* subtle lift so it reads as clickable */
+    padding:6px;
+  }
+  table.cons button.snd{flex:1;width:auto}           /* split the cell evenly across a pair */
+}
+
 /* ---------- vowel trapezoid ---------- */
 .trap-outer{padding:14px 2px 6px}
 .trap{
@@ -199,7 +234,7 @@ button.snd .glyph{color:inherit}
 .vbtn{position:absolute;transform:translate(-50%,-50%)}
 .vpair{position:absolute;transform:translate(-50%,-50%);display:flex;align-items:center;gap:1px}
 .vpair .mid{width:5px;height:5px;border-radius:50%;background:var(--line-strong);flex:none}
-.trap button.snd{font-size:clamp(15px,2.4vw,22px);padding:3px 4px;min-width:0;background:var(--card);border-color:var(--line)}
+.trap button.snd{font-size:clamp(15px,2.4vw,22px);padding:3px 4px;background:var(--card);border-color:var(--line)}
 .trap button.snd:hover{border-color:currentColor}
 
 /* ---------- diphthongs & others ---------- */
@@ -310,7 +345,7 @@ footer a{color:var(--vd)}
         </div>
       </div>
       <div class="tablescroll"><table class="cons" id="consonant"></table></div>
-      <p class="rowcaption">Hatched cells: articulations judged impossible. Rows = manner of articulation, columns = place (front of the mouth → throat).</p>
+      <p class="rowcaption">Hatched cells: articulations judged impossible. Rows = manner, columns = place (front of the mouth → throat); on small screens the chart stacks by manner.</p>
     </section>
 
     <section class="block">

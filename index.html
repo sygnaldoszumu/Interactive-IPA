@@ -111,10 +111,8 @@ h1 .slash{color:var(--vl)} h1 .slash2{color:var(--vd)}
 
 /* ---------- layout ---------- */
 .layout{display:grid;grid-template-columns:1fr;gap:18px;margin-top:18px}
-#panel[hidden]{display:none}   /* hidden until the first symbol is clicked */
 @media(min-width:1020px){
   .layout{grid-template-columns:minmax(0,1fr) 300px;align-items:start}
-  .layout:has(#panel[hidden]){grid-template-columns:minmax(0,1fr)}  /* reclaim the column */
   #panel{position:sticky;top:16px;order:2}
   .charts{order:1;min-width:0}
 }
@@ -287,7 +285,7 @@ footer a{color:var(--vd)}
 
 <main class="layout">
 
-  <aside id="panel" aria-live="polite" hidden>
+  <aside id="panel" aria-live="polite">
     <div class="ph">Sound inspector</div>
     <div class="bigsym idle" id="p-sym">◌</div>
     <p class="sname" id="p-name">Click any symbol to hear it</p>
@@ -782,7 +780,6 @@ function playURL(url, myGen, timeout){
 
 function select(sym, btn, autoplay=true){
   currentSym = sym; currentBtn = btn;
-  document.getElementById('panel').hidden = false;   // reveal on first pick
   document.querySelectorAll('button.snd.selected').forEach(b=>b.classList.remove('selected'));
   if(btn) btn.classList.add('selected');
   renderPanel(sym);
@@ -880,7 +877,11 @@ function renderPanel(sym){
   document.getElementById('p-replay').onclick=()=>play(sym, currentBtn);
 }
 
-/* inspector stays hidden until the user clicks a symbol */
+/* default the inspector to the first available sound (no autoplay) */
+(function(){
+  const first=document.querySelector('button.snd:not(.dim)');
+  if(first) select(first.dataset.sym, first, false);
+})();
 
 /* ---- keep the footer handwriting sitting on the paper rules ----
    The white cards above have arbitrary heights, so the flow reaches the
